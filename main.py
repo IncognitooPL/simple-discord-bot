@@ -1,28 +1,34 @@
 import asyncio
 import json
 import discord
-from discord_components import Button, ComponentsBot
+import random
+from discord import DMChannel, guild
+from discord.ext import commands
+from discord_components import Button, ComponentsBot, DiscordComponents
 
-bot = ComponentsBot("!")
+bot = commands.Bot(command_prefix='!')
 
-config = json.load(open('config.json', encoding='utf-8'))['dialogues']
+DiscordComponents(bot)
+
+config = json.load(open('config.json', encoding='utf-8'))['config']
 credentials = json.load(open('credentials.json'))
 
 
 @bot.command()
 async def ticket(ctx):
-    config = config['ticket']
+    dialogues = config['ticket']['dialogues']
+    ticket_config = config['ticket']['config']
 
-    embed = discord.Embed(title=config['ticket_header'],
-                          description=config['ticket_content'],
-                          colour=int(config["ticket_colour"], 16))
+    embed = discord.Embed(title=dialogues['ticket_header'],
+                          description=dialogues['ticket_content'],
+                          colour=int(ticket_config["ticket_colour"], 16))
 
-    embed.set_footer(icon_url=ctx.guild.icon_url, text=config["ticket_footer"])
+    embed.set_footer(icon_url=ctx.guild.icon_url, text=dialogues["ticket_footer"])
 
     components = [
         [
-            Button(label=config['ticket_accept'], style=3, custom_id='button_1'),
-            Button(label=config['ticket_discard'], style=4, custom_id='button_2')
+            Button(label=dialogues['ticket_accept'], style=3, custom_id='button_1'),
+            Button(label=dialogues['ticket_discard'], style=4, custom_id='button_2')
         ]
     ]
 
@@ -33,28 +39,49 @@ async def ticket(ctx):
             interaction = await bot.wait_for(
                 'button_click',
                 check=lambda inter: inter.message.id == message.id,
-                timeout=config["ticket_timeout"]
+                timeout=ticket_config["ticket_timeout"]
             )
 
-            print(interaction.guild.get_member(interaction.author.id))
         except asyncio.TimeoutError:
             for row in components:
                 row.disable_components()
             return
 
-        if interaction.custom_id == 'button_1':
-            await interaction.send('Hey! Whats up?')
-        elif interaction.custom_id == 'button_2':
-            await interaction.send('Wow! You clicked `Button 2`')
+        if interaction.custom_id == 'button_1' and interaction.author.id == ctx.author.id:
+            await createTicketChannel(ctx, ctx.author)
+            await message.delete()
+            return
+
+        elif interaction.custom_id == 'button_2' and interaction.author.id == ctx.author.id:
+            await ctx.author.send("NOOOOO")
+            await message.delete()
+            return
+
+
+async def createTicketChannel(ctx, user):
+    ticket_config = config['ticket']['config']
+    ticketID = random.randint(111111111, 999999999)
+
+    for channel in ctx.guild.channels:
+        if str(channel.name) == str(ticket_config['ticket_channel_name'] + str(ticketID)):
+            await createTicketChannel(ctx, user)
+            return
+
+    overwrites = {
+        guild.default_role: discord.PermissionOverwrite(read_messages=False),
+        guild.me: discord.PermissionOverwrite(read_messages=True)
+    }
+
+    channel = await ctx.guild.create_text_channel(
+        name=ticket_config['ticket_channel_name'] + str(ticketID),
+        overwrites=overwrites)
+
+    print(channel)
 
 
 @bot.command()
 async def ping(ctx):
     await ctx.send('pong')
-
-
-def create_ticket(ctx):
-    print("XD")
 
 
 @bot.event
