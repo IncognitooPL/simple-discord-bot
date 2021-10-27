@@ -1,23 +1,28 @@
-import                      asyncio
-import                      json
-import                      discord
-from discord_components     import Button, ComponentsBot
+import asyncio
+import json
+import discord
+from discord_components import Button, ComponentsBot
 
 bot = ComponentsBot("!")
 
-dialogues = json.load(open('dialogues.json'))
+config = json.load(open('config.json', encoding='utf-8'))['dialogues']
+credentials = json.load(open('credentials.json'))
 
 
 @bot.command()
-async def embed(ctx):
-    embed = discord.Embed(title="Wyślij Zgłoszenie",
-                          description="Bla bla wysyłanie zgłoszenia śmieszne lol xd beczooonia chcesz to wysłać byqu?",
-                          color=0x3D85C6)
+async def ticket(ctx):
+    config = config['ticket']
+
+    embed = discord.Embed(title=config['ticket_header'],
+                          description=config['ticket_content'],
+                          colour=int(config["ticket_colour"], 16))
+
+    embed.set_footer(icon_url=ctx.guild.icon_url, text=config["ticket_footer"])
 
     components = [
         [
-            Button(label='Potwierdź', style=3, custom_id='button_1'),
-            Button(label='Odrzuć', style=4, custom_id='button_2')
+            Button(label=config['ticket_accept'], style=3, custom_id='button_1'),
+            Button(label=config['ticket_discard'], style=4, custom_id='button_2')
         ]
     ]
 
@@ -28,12 +33,14 @@ async def embed(ctx):
             interaction = await bot.wait_for(
                 'button_click',
                 check=lambda inter: inter.message.id == message.id,
-                timeout=60
+                timeout=config["ticket_timeout"]
             )
+
+            print(interaction.guild.get_member(interaction.author.id))
         except asyncio.TimeoutError:
             for row in components:
                 row.disable_components()
-            return await message.edit(content='Timed out!', components=components)
+            return
 
         if interaction.custom_id == 'button_1':
             await interaction.send('Hey! Whats up?')
@@ -46,9 +53,13 @@ async def ping(ctx):
     await ctx.send('pong')
 
 
+def create_ticket(ctx):
+    print("XD")
+
+
 @bot.event
 async def on_ready():
-    print(dialogues['dialogues']['debug']['motd'])
+    print(config['debug']['motd'])
 
 
-bot.run('TOKEN HERE')
+bot.run(credentials['token'])
