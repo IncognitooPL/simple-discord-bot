@@ -69,7 +69,8 @@
       ],
       "errors": {
         "missing_permissions": "Missing permissions!",
-        "MissingRequiredArgument" : "Missing Required Argument"
+        "MissingRequiredArgument" : "Missing Required Argument",
+        "unexpected_error": "An unexpected error has occurred!"
       }
     }
   }

@@ -47,7 +47,7 @@ async def ticket(ctx):
         except asyncio.TimeoutError:
             for row in components:
                 row.disable_components()
-            message.delete()
+            await message.delete()
             return
 
         if interaction.custom_id == 'button_1' and interaction.author.id == ctx.author.id:
@@ -188,17 +188,12 @@ async def reload(ctx):
         await ctx.send(config['debug']['errors']['missing_permissions'])
 
 
-@bot.command()
-async def clearAllTickets(ctx, category_id):
-    category = discord.utils.get(ctx.guild.categories, id=int(category_id))
-    for channel in category.channels:
-        await channel.delete()
-
-
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send(config['debug']['errors']['MissingRequiredArgument'])
+    else:
+        await ctx.send(config['debug']['errors']['unexpected_error'])
 
 
     ###################################
