@@ -132,7 +132,7 @@ async def changeActivity(ctx, *, args):
     if int(interaction.values[0]) == 0:
         activity = discord.Game(name=args)
     elif int(interaction.values[0]) == 1:
-        activity = discord.Streaming(name="My Stream", url="https://incognitoo.pl")
+        activity = discord.Streaming(name="contact me :DDD", url="kontakt@incognitoo.pl")
     elif int(interaction.values[0]) == 2:
         activity = discord.Activity(type=discord.ActivityType.listening, name=args)
     elif int(interaction.values[0]) == 3:
