@@ -23,7 +23,7 @@
 
       "dm_confirmation_dialogues":{
         "ticket_header": "Ticket System",
-        "ticket_content": "You have successfully created your ticket!\n",
+        "ticket_content": "You have successfully created your ticket!",
         "ticket_footer": "Ticket System - Eskatron Role Play"
       },
 

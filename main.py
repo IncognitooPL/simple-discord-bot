@@ -5,9 +5,13 @@ import random
 from discord.ext import commands
 from discord_components import Button, DiscordComponents
 
-bot         = commands.Bot(command_prefix='!')
-config      = {}
+bot = commands.Bot(command_prefix='!')  # Change bot prefix here
+config = {}
 credentials = {}
+
+    ###################################
+    #          TICKET SYSTEM          #
+    ###################################
 
 
 @bot.command()
@@ -88,7 +92,33 @@ async def createTicketChannel(ctx, user):
         overwrites=overwrites,
         category=category)
 
-    print("Created :"+str(channel))
+    print("Created :" + str(channel))
+
+    ###################################
+    #         OTHER COMMANDS          #
+    #         AND FUNCTIONS           #
+    ###################################
+
+
+@bot.command()
+async def say(ctx, *, message):
+    await ctx.message.delete()
+    await ctx.send(message)
+
+
+def checkAdminPermissions(ctx):
+    allowed = False
+
+    for userRole in ctx.author.roles:
+        for accessedRoles in config['debug']['debug_accessed_roles']:
+            if int(accessedRoles) == userRole.id:
+                allowed = True
+
+    return allowed
+
+    ###################################
+    #           DEBUG TOOLS           #
+    ###################################
 
 
 @bot.command()
@@ -109,33 +139,20 @@ async def reload(ctx):
 
 
 @bot.command()
-async def say(ctx, *, message):
-    await ctx.message.delete()
-    await ctx.send(message)
-
-'''Only for me :DD'''
-@bot.command()
 async def clearAllTickets(ctx, category_id):
     category = discord.utils.get(ctx.guild.categories, id=int(category_id))
     for channel in category.channels:
         await channel.delete()
+
+    ###################################
+    #          SETUP STATEMENT        #
+    ###################################
 
 
 @bot.event
 async def on_ready():
     print(config['debug']['motd'])
     DiscordComponents(bot)
-
-
-def checkAdminPermissions(ctx):
-    allowed = False
-
-    for userRole in ctx.author.roles:
-        for accessedRoles in config['debug']['debug_accessed_roles']:
-            if int(accessedRoles) == userRole.id:
-                allowed = True
-
-    return allowed
 
 
 def loadFiles():
@@ -151,5 +168,3 @@ def setup():
 
 
 setup()
-
-
