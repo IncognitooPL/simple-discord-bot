@@ -1,0 +1,56 @@
+{
+  "config": {
+    "welcome_text": {
+      "dialogues" : [
+        "Hello and Welcome on our Discord!",
+        "Welcome on board!",
+        "Welcome our player!"
+      ],
+      "config": {
+
+      }
+    },
+    "ticket": {
+      "main_dialogues":{
+        "ticket_header": "Ticket System",
+        "ticket_content": "Welcome to the ticketing system. Select the appropriate option by clicking on the appropriate button below. \nRemember that creating fake tickets is a penalty!",
+        "ticket_footer": "Ticket System - Eskatron Role Play",
+        "ticket_accept": "Agree",
+        "ticket_discard": "Disagree"
+      },
+
+      "send_dm_confirmation_on_creation": "true",
+
+      "dm_confirmation_dialogues":{
+        "ticket_header": "Ticket System",
+        "ticket_content": "You have successfully created your ticket!\n",
+        "ticket_footer": "Ticket System - Eskatron Role Play"
+      },
+
+      "config": {
+        "ticket_channel_name" : "ticket-",
+        "ticket_colour" : "0x3D85C6",
+        "ticket_category": "902891288385433633",
+        "ticket_accessed_roles": [
+          "909035731731771412",
+          "892444582976032798",
+          "902890996210229258"
+        ],
+
+        "ticket_timeout" : 60
+      }
+    },
+    "debug": {
+      "ping": "Pong",
+      "reload": "Successfully reloaded config file!",
+      "motd": "The bot works successfully",
+      "missing_permissions": "Missing permissions!",
+      "debug_accessed_roles": [
+          "909035731731771412",
+          "892444582976032798",
+          "902890996210229258",
+          "902891003185360996"
+      ]
+    }
+  }
+}
