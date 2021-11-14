@@ -252,7 +252,7 @@ async def reload(ctx):
     else:
         await ctx.send(config['debug']['errors']['missing_permissions'])
 
-'''
+
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
@@ -260,7 +260,7 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.CommandNotFound):
         await ctx.send(config['debug']['errors']['CommandNotFound'])
     else:
-        await ctx.send(config['debug']['errors']['unexpected_error'])'''
+        await ctx.send(config['debug']['errors']['unexpected_error'])
 
     ###################################
     #          SETUP STATEMENT        #
