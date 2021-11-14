@@ -6,7 +6,7 @@ Ideas
 -----
 
 - Creating a web panel for managing the bot
-- Addition of a system of advertisements
+- ~~Addition of a system of advertisements~~
 - Expansion of admin tools
 - Welcome messages
 - Maybe some "fun" functions
