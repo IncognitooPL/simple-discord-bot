@@ -5,6 +5,7 @@ Just like the name says, it's just an easy and simple Discord bot created for th
 Ideas
 -----
 
+- Creating a web panel for managing the bot
 - Addition of a system of advertisements
 - Expansion of admin tools
 - Welcome messages
@@ -14,6 +15,8 @@ Ideas
 To Do
 -----
 
+- Increase the ability to customize commands through the config
+- Add descriptions, aliases, categories etc. to @bot.command(...)
 - Add streaming to the change activity option
 - Add more possible errors to on_command_error
 - Add the ability to set permissions to each command separately

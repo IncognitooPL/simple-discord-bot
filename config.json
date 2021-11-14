@@ -12,11 +12,14 @@
       }
     },
 
+
     "ticket": {
       "main_dialogues":{
         "ticket_header": "Ticket System",
         "ticket_content": "Welcome to the ticketing system. Select the appropriate option by clicking on the appropriate button below. \nRemember that creating fake tickets is a penalty!",
         "ticket_footer": "Ticket System - Eskatron Role Play",
+        "ticket_thumbnail_url": "https://incognitoo.pl/hahameme4.jpg",
+        "ticket_footer_custom_img_url": "https://incognitoo.pl/hahameme3.png",
         "ticket_accept": "Agree",
         "ticket_discard": "Disagree"
       },
@@ -33,6 +36,11 @@
         "ticket_channel_name" : "ticket-",
         "ticket_colour" : "0x3D85C6",
         "ticket_category": "902891288385433633",
+        "use_footer": "True",
+        "show_footer_img": "True",
+        "use_footer_custom_img": "false",
+        "use_thumbnail": "True",
+        "show_author": "True",
         "ticket_accessed_roles": [
           "909035731731771412",
           "892444582976032798",
@@ -42,6 +50,25 @@
         "ticket_timeout" : 60
       }
     },
+
+
+    "announcements":{
+      "announcement_title": "Announcement",
+      "announcement_footer": "Announcement System - Eskatron Role Play",
+      "announcement_footer_custom_img_url": "https://incognitoo.pl/hahameme2.jpg",
+      "announcement_thumbnail_url": "https://incognitoo.pl/hahameme.png",
+
+      "config": {
+        "announcement_colour" : "0x3D85C6",
+        "announcement_ping_everyone": "True",
+        "use_footer": "true",
+        "show_footer_img": "true",
+        "use_footer_custom_img": "false",
+        "use_thumbnail": "True",
+        "show_author": "True"
+      }
+    },
+
 
     "changeActivity": {
       "choose_activity_type": "Choose the type of activity your bot should perform",
@@ -55,6 +82,7 @@
       },
       "error": "An unexpected error has occurred! Please contact the administrator. Bot activity has not been changed"
     },
+
 
     "debug": {
       "ping": "Pong",
@@ -70,6 +98,7 @@
       "errors": {
         "missing_permissions": "Missing permissions!",
         "MissingRequiredArgument" : "Missing Required Argument",
+        "CommandNotFound" : "The specified command does not exist",
         "unexpected_error": "An unexpected error has occurred!"
       }
     }

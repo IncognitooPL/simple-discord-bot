@@ -25,7 +25,21 @@ async def ticket(ctx):
                           description=dialogues['ticket_content'],
                           colour=int(ticket_config["ticket_colour"], 16))
 
-    embed.set_footer(icon_url=ctx.guild.icon_url, text=dialogues["ticket_footer"])
+    if str(ticket_config['show_author']).capitalize() == "True":
+        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+
+    if str(ticket_config['use_thumbnail']).capitalize() == "True":
+        embed.set_thumbnail(url=dialogues['ticket_thumbnail_url'])
+
+    if str(ticket_config['use_footer']).capitalize() == "True":
+        if str(ticket_config['show_footer_img']).capitalize() == "True":
+            if str(ticket_config['use_footer_custom_img']).capitalize() == "True":
+                footer_img = dialogues['ticket_footer_custom_img_url']
+            else:
+                footer_img = ctx.guild.icon_url
+            embed.set_footer(text=dialogues['ticket_footer'], icon_url=footer_img)
+        else:
+            embed.set_footer(text=dialogues['ticket_footer'])
 
     components = [
         [
@@ -96,8 +110,46 @@ async def createTicketChannel(ctx, user):
     print("Created :" + str(channel))
 
     ###################################
-    #         OTHER COMMANDS          #
-    #         AND FUNCTIONS           #
+    #       ANNOUNCEMENT SYSTEM       #
+    ###################################
+
+
+@bot.command()
+async def announcement(ctx, *, message):
+    if not checkAdminPermissions(ctx):
+        await ctx.send(config['debug']['errors']['missing_permissions'])
+        return
+
+    anconfig = config['announcements']
+    ping_everyone = ""
+
+    if str(anconfig['config']['announcement_ping_everyone']).capitalize() == "True":
+        ping_everyone = "@everyone"
+
+    embed = discord.Embed(title=anconfig['announcement_title'],
+                          description=message,
+                          colour=int(anconfig["config"]['announcement_colour'], 16))
+
+    if str(anconfig['config']['show_author']).capitalize() == "True":
+        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+
+    if str(anconfig['config']['use_thumbnail']).capitalize() == "True":
+        embed.set_thumbnail(url=anconfig['announcement_thumbnail_url'])
+
+    if str(anconfig['config']['use_footer']).capitalize() == "True":
+        if str(anconfig['config']['show_footer_img']).capitalize() == "True":
+            if str(anconfig['config']['use_footer_custom_img']).capitalize() == "True":
+                footer_img = anconfig['announcement_footer_custom_img_url']
+            else:
+                footer_img = ctx.guild.icon_url
+            embed.set_footer(text=anconfig['announcement_footer'], icon_url=footer_img)
+        else:
+            embed.set_footer(text=anconfig['announcement_footer'])
+
+    await ctx.send(ping_everyone, embed=embed)
+
+    ###################################
+    #      ACTIVITY CHANGE SYSTEM     #
     ###################################
 
 
@@ -149,11 +201,25 @@ async def changeActivity(ctx, *, args):
     await bot.change_presence(activity=activity)
     await interaction.send(content=f"{interaction.values[0]} selected!")
 
+    ###################################
+    #         OTHER COMMANDS          #
+    #         AND FUNCTIONS           #
+    ###################################
+
+
+'''
+@bot.command() # TO DO
+async def help(ctx, *, message):
+    if checkAdminPermissions(ctx):
+        await ctx.message.delete()
+        await ctx.send(message)'''
+
 
 @bot.command()
 async def say(ctx, *, message):
-    await ctx.message.delete()
-    await ctx.send(message)
+    if checkAdminPermissions(ctx):
+        await ctx.message.delete()
+        await ctx.send(message)
 
 
 def checkAdminPermissions(ctx):
@@ -187,14 +253,15 @@ async def reload(ctx):
     else:
         await ctx.send(config['debug']['errors']['missing_permissions'])
 
-
+'''
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send(config['debug']['errors']['MissingRequiredArgument'])
+    elif isinstance(error, commands.CommandNotFound):
+        await ctx.send(config['debug']['errors']['CommandNotFound'])
     else:
-        await ctx.send(config['debug']['errors']['unexpected_error'])
-
+        await ctx.send(config['debug']['errors']['unexpected_error'])'''
 
     ###################################
     #          SETUP STATEMENT        #
