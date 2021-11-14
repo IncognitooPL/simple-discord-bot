@@ -38,7 +38,7 @@
         "ticket_category": "902891288385433633",
         "use_footer": "True",
         "show_footer_img": "True",
-        "use_footer_custom_img": "false",
+        "use_footer_custom_img": "False",
         "use_thumbnail": "True",
         "show_author": "True",
         "ticket_accessed_roles": [

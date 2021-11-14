@@ -107,7 +107,6 @@ async def createTicketChannel(ctx, user):
         overwrites=overwrites,
         category=category)
 
-    print("Created :" + str(channel))
 
     ###################################
     #       ANNOUNCEMENT SYSTEM       #
